@@ -1,12 +1,11 @@
 import os
 import json
 import logging
-from datetime import datetime
 
 import requests
-import boto3
-from botocore.client import Config
 from botocore.exceptions import ClientError
+
+from libs.utils.commons import get_minio_client
 
 
 URLS_TO_SCRAP = {
@@ -17,7 +16,7 @@ URLS_TO_SCRAP = {
 LOGGER = logging.getLogger(__name__)
 
 
-def upload_file(file_name, bucket, object_name=None):
+def upload_file(file_name: str, bucket: str, object_name=None):
     """Upload a file to an S3 bucket
 
     :param file_name: File to upload
@@ -30,15 +29,7 @@ def upload_file(file_name, bucket, object_name=None):
     if object_name is None:
         object_name = os.path.basename(file_name)
 
-    # Configure MinIO Client
-    minio_client = boto3.client(
-        "s3",
-        endpoint_url="http://host.docker.internal:9000",  # MinIO endpoint from within Docker
-        aws_access_key_id="minioadmin",  # MinIO access key
-        aws_secret_access_key="minioadmin",  # MinIO secret key
-        config=Config(signature_version="s3v4"),
-        region_name="us-east-1",  # Default region for S3/MinIO
-    )
+    minio_client = get_minio_client()
 
     # Ensure that bucket exists before attempting upload
     try:

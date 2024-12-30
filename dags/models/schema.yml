@@ -1,82 +1,54 @@
 version: 2
 
 models:
-  - name: customers
-    description: This table has basic information about a customer, as well as some derived facts based on a customer's orders
+  - name: stocks
+    description: This table contains the information of stocks from the brazilian and us markets
 
     columns:
-      - name: customer_id
-        description: This is a unique identifier for a customer
+      - name: ticker
+        description: Stock ticker in exchange
         tests:
           - unique
           - not_null
-
-      - name: first_name
-        description: Customer's first name. PII.
-
-      - name: last_name
-        description: Customer's last name. PII.
-
-      - name: first_order
-        description: Date (UTC) of a customer's first order
-
-      - name: most_recent_order
-        description: Date (UTC) of a customer's most recent order
-
-      - name: number_of_orders
-        description: Count of the number of orders a customer has placed
-
-      - name: total_order_amount
-        description: Total value (AUD) of a customer's orders
-
-  - name: orders
-    description: This table has basic information about orders, as well as some derived facts based on payments
-
-    columns:
-      - name: order_id
-        tests:
-          - unique
-          - not_null
-        description: This is a unique identifier for an order
-
-      - name: customer_id
-        description: Foreign key to the customers table
+      - name: companyname
+        description: Company Name
         tests:
           - not_null
-          - relationships:
-              to: ref('customers')
-              field: customer_id
-
-      - name: order_date
-        description: Date (UTC) that the order was placed
-
-      - name: status
-        description: '{{ doc("orders_status") }}'
-        tests:
-          - accepted_values:
-              values: ['placed', 'shipped', 'completed', 'return_pending', 'returned']
-
-      - name: amount
-        description: Total amount (AUD) of the order
+      - name: price
         tests:
           - not_null
-
-      - name: credit_card_amount
-        description: Amount of the order (AUD) paid for by credit card
-        tests:
-          - not_null
-
-      - name: coupon_amount
-        description: Amount of the order (AUD) paid for by coupon
-        tests:
-          - not_null
-
-      - name: bank_transfer_amount
-        description: Amount of the order (AUD) paid for by bank transfer
-        tests:
-          - not_null
-
-      - name: gift_card_amount
-        description: Amount of the order (AUD) paid for by gift card
-        tests:
-          - not_null
+      - name: p_l
+      - name: p_vp
+      - name: p_ebit
+      - name: p_ativo
+      - name: ev_ebit
+      - name: margembruta
+      - name: margemebit
+      - name: margemliquida
+      - name: p_sr
+      - name: p_capitalgiro
+      - name: p_ativocirculante
+      - name: giroativos
+      - name: roe
+      - name: roa
+      - name: roic
+      - name: dividaliquidapatrimonioliquido
+      - name: dividaliquidaebit
+      - name: pl_ativo
+      - name: passivo_ativo
+      - name: liquidezcorrente
+      - name: peg_ratio
+      - name: receitas_cagr5
+      - name: vpa
+      - name: lpa
+      - name: valormercado
+      - name: segmentid
+        description: Company segment id
+      - name: sectorid
+        description: Company sector id
+      - name: subsectorid
+        description: Company subsector id
+      - name: dy
+        description: Company Dividend Yield
+      - name: lucros_cagr5
+      - name: market

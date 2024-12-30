@@ -1,9 +1,9 @@
-name: 'jaffle_shop'
+name: 'stock_fundamentals'
 
 config-version: 2
 version: '0.1'
 
-profile: 'jaffle_shop'
+profile: 'stock_fundamentals'
 
 model-paths: ["models"]
 seed-paths: ["seeds"]
@@ -20,7 +20,8 @@ clean-targets:
 require-dbt-version: [">=1.0.0", "<2.0.0"]
 
 models:
-  jaffle_shop:
+  stock_fundamentals:
       materialized: table
+      +schema: gold_layer
       staging:
-        materialized: view
+        +schema: staging_layer

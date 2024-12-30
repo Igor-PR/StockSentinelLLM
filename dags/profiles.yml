@@ -1,5 +1,4 @@
-# example profiles.yml file
-jaffle_shop:
+stock_fundamentals:
   target: dev
   outputs:
     dev:
@@ -9,5 +8,5 @@ jaffle_shop:
       password: admin
       port: 5433
       dbname: analytics
-      schema: dbt_alice
+      schema: dw
       threads: 4

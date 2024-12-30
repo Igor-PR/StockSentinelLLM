@@ -14,7 +14,6 @@ def json_data_loader(file_name: str, stock_key: str):
     market_mapping = {"brazilian_stocks": "BR", "us_stocks": "US"}
     dtypes = retrieve_dtype(stock_key)
     df = pd.read_json(file_name, dtype=dtypes)
-    df["market"] = market_mapping[stock_key]
 
     os.remove(file_name)
     return df

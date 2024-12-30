@@ -37,18 +37,30 @@ def data_pipeline_dag():
     def load_us_stocks(ds=None, **kwargs):
         data_loader(ds, "us_stocks")
     
-    run_dbt_seed = BashOperator(
-        task_id='run_dbt_seed',
-        bash_command='cd /opt/airflow/dags; dbt seed --profiles-dir /opt/airflow/dags',
-    )
-    
-    run_dbt_model = BashOperator(
-        task_id='run_dbt_model',
-        bash_command='cd /opt/airflow/dags; dbt run --profiles-dir /opt/airflow/dags',
+    run_dbt_stg = BashOperator(
+        task_id='run_dbt_stg',
+        bash_command='cd /opt/airflow/dags; dbt run --models staging --profiles-dir /opt/airflow/dags',
     )
 
-    scrape_br_stocks() >> load_br_stocks() >> run_dbt_seed >> run_dbt_model
-    scrape_us_stocks() >> load_us_stocks() >> run_dbt_seed >> run_dbt_model
+    run_dbt_test_stg = BashOperator(
+        task_id='run_dbt_test_stg',
+        bash_command='cd /opt/airflow/dags; dbt test --models staging --profiles-dir /opt/airflow/dags',
+    )
+    
+    run_dbt_gold = BashOperator(
+        task_id='run_dbt_gold',
+        bash_command='cd /opt/airflow/dags; dbt run --models stocks --profiles-dir /opt/airflow/dags',
+    )
+
+    run_dbt_test_gold = BashOperator(
+        task_id='run_dbt_test_gold',
+        bash_command='cd /opt/airflow/dags; dbt test --models stocks --profiles-dir /opt/airflow/dags',
+    )
+
+    scrape_br_stocks() >> load_br_stocks() >> run_dbt_stg
+    scrape_us_stocks() >> load_us_stocks() >> run_dbt_stg
+
+    run_dbt_stg >> run_dbt_test_stg >> run_dbt_gold >> run_dbt_test_gold
 
 
 data_pipeline_dag = data_pipeline_dag()

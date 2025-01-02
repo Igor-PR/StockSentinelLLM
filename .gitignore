@@ -174,3 +174,8 @@ minio/
 logs/
 backups/
 plugins/
+
+
+target/
+dbt_modules/
+.user.yml

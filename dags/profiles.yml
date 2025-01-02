@@ -1,0 +1,12 @@
+stock_fundamentals:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: host.docker.internal
+      user: admin
+      password: admin
+      port: 5433
+      dbname: analytics
+      schema: dw
+      threads: 4

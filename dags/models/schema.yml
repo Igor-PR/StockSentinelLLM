@@ -1,0 +1,54 @@
+version: 2
+
+models:
+  - name: stocks
+    description: This table contains the information of stocks from the brazilian and us markets
+
+    columns:
+      - name: ticker
+        description: Stock ticker in exchange
+        tests:
+          - unique
+          - not_null
+      - name: companyname
+        description: Company Name
+        tests:
+          - not_null
+      - name: price
+        tests:
+          - not_null
+      - name: p_l
+      - name: p_vp
+      - name: p_ebit
+      - name: p_ativo
+      - name: ev_ebit
+      - name: margembruta
+      - name: margemebit
+      - name: margemliquida
+      - name: p_sr
+      - name: p_capitalgiro
+      - name: p_ativocirculante
+      - name: giroativos
+      - name: roe
+      - name: roa
+      - name: roic
+      - name: dividaliquidapatrimonioliquido
+      - name: dividaliquidaebit
+      - name: pl_ativo
+      - name: passivo_ativo
+      - name: liquidezcorrente
+      - name: peg_ratio
+      - name: receitas_cagr5
+      - name: vpa
+      - name: lpa
+      - name: valormercado
+      - name: segmentid
+        description: Company segment id
+      - name: sectorid
+        description: Company sector id
+      - name: subsectorid
+        description: Company subsector id
+      - name: dy
+        description: Company Dividend Yield
+      - name: lucros_cagr5
+      - name: market

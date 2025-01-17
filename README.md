@@ -67,6 +67,21 @@ This project demonstrates a simple end-to-end data pipeline using open source de
 - `dags/models/staging`: Contains models for cleaning and enhancing raw data.
 - `dags/models/`: Contains models for unifying data into the final schema.
 
+## Running the LLM Agent
+1. Create a virtual environment for the project
+   - `python -m venv .venv`
+2. Activate the newly created virtual environment
+   `source .venv/bin/activate`
+3. Install the required dependencies
+   - `pip install -r requirements.txt`
+4. Install [Ollama](https://github.com/ollama/ollama) and get the `llama3-groq-tool-use` model
+   - `ollama pull llama3-groq-tool-use`
+5. Create a new kernel with the libraries installed in requirements.txt
+   - `python -m ipykernel install --user --name=local_venv --display-name "Python (.venv)"`
+6. Start jupyter lab to load the llm_agent notebook
+   - `jupyter lab`
+7. Select the newly created kerned named **Python (.venv)**
+
 
 ## License
 This project is licensed under the Apache-2.0 License. See the `LICENSE` file for details.

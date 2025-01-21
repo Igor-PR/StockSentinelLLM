@@ -4,6 +4,7 @@ import datetime
 
 from airflow.decorators import dag, task
 from airflow.operators.bash_operator import BashOperator
+from airflow.operators.empty import EmptyOperator
 
 from libs.si_stock_scrapper import si_web_scrapper
 from libs.data_loader import data_loader
@@ -20,6 +21,9 @@ PATH_TO_PYTHON_BINARY = sys.executable
     catchup=False,
 )
 def data_pipeline_dag():
+
+    start_task = EmptyOperator(task_id='start')
+    end_task = EmptyOperator(task_id='end')
 
     @task(task_id="scrape_br_stocks")
     def scrape_br_stocks(ds=None, **kwargs):
@@ -57,10 +61,16 @@ def data_pipeline_dag():
         bash_command='cd /opt/airflow/dags; dbt test --models stocks --profiles-dir /opt/airflow/dags',
     )
 
-    scrape_br_stocks() >> load_br_stocks() >> run_dbt_stg
-    scrape_us_stocks() >> load_us_stocks() >> run_dbt_stg
+    scrape_br_stocks_task = scrape_br_stocks()
+    scrape_us_stocks_task = scrape_us_stocks()
 
-    run_dbt_stg >> run_dbt_test_stg >> run_dbt_gold >> run_dbt_test_gold
+    start_task >> scrape_br_stocks_task
+    start_task >> scrape_us_stocks_task
+
+    scrape_br_stocks_task >> load_br_stocks() >> run_dbt_stg
+    scrape_us_stocks_task >> load_us_stocks() >> run_dbt_stg
+
+    run_dbt_stg >> run_dbt_test_stg >> run_dbt_gold >> run_dbt_test_gold >> end_task
 
 
 data_pipeline_dag = data_pipeline_dag()
